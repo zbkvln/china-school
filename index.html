@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ТЯНЬ-ЛУН — Онлайн школа китайского языка</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Vollkorn:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="preloader" id="preloader">
+  <img class="preloader__dragon" src="dragon2.png" alt="Дракон" />
+</div>
+
+<header class="header">
+  <div class="header__inner">
+    <a href="#home" class="header__logo">
+      <div class="header__logo-img">
+        <img src="dragon2.png" alt="Тянь-Лун логотип" />
+      </div>
+    </a>
+    <nav>
+      <ul class="header__nav">
+        <li><a href="#home">Главная</a></li>
+        <li><a href="#features">Преимущества</a></li>
+        <li><a href="#courses">Курсы</a></li>
+        <li><a href="#faq">Вопросы</a></li>
+        <li><a href="#contact">Заявка</a></li>
+      </ul>
+    </nav>
+    <button class="header__burger" id="burger" aria-label="Открыть меню">
+      <svg id="burger-icon" width="24" height="18" viewBox="0 0 24 18" fill="none">
+        <rect y="0"    width="24" height="2.5" rx="1.25" fill="#FEFEF5"/>
+        <rect y="7.75" width="24" height="2.5" rx="1.25" fill="#FEFEF5"/>
+        <rect y="15.5" width="24" height="2.5" rx="1.25" fill="#FEFEF5"/>
+      </svg>
+      <svg id="close-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" style="display:none;">
+        <line x1="1" y1="1" x2="19" y2="19" stroke="#FEFEF5" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="19" y1="1" x2="1"  y2="19" stroke="#FEFEF5" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobile-menu">
+  <a href="#home">Главная</a>
+  <a href="#features">Преимущества</a>
+  <a href="#courses">Курсы</a>
+  <a href="#faq">Вопросы</a>
+  <a href="#contact">Заявка</a>
+</nav>
+
+<section id="home" class="hero">
+  <div class="slider">
+    <div class="slider__track" id="sliderTrack">
+
+      <div class="slider__slide">
+        <div class="slider__slide-top">
+          <div class="slider__content">
+            <h1 class="slider__title">ТЯНЬ-ЛУН</h1>
+            <p class="slider__subtitle">ОНЛАЙН ШКОЛА<br>КИТАЙСКОГО ЯЗЫКА</p>
+            <button class="btn btn--filled scroll-to-form">ЗАПИСАТЬСЯ</button>
+          </div>
+          <div class="slider__image">
+            <img src="картинка 1 слайдер.png" alt="Написание иероглифов" />
+          </div>
+        </div>
+        <img class="slider__slide-tree" src="дерево.png" alt="" />
+      </div>
+
+      <div class="slider__slide">
+        <div class="slider__slide-top">
+          <div class="slider__content">
+            <h2 class="slider__title">500+ иероглифов за первый курс</h2>
+            <p class="slider__desc">Начните понимать китайские фильмы и общаться в путешествиях уже через 3 месяца.</p>
+            <button class="btn btn--filled scroll-to-form">ЗАПИСАТЬСЯ</button>
+          </div>
+          <div class="slider__image">
+            <img src="картинка 2 слайдер.png" alt="Девочка учится" />
+          </div>
+        </div>
+        <img class="slider__slide-tree" src="дерево.png" alt="" />
+      </div>
+
+      <div class="slider__slide">
+        <div class="slider__slide-top">
+          <div class="slider__content">
+            <h2 class="slider__title">Заговорите на китайском с первого занятия</h2>
+            <p class="slider__desc">Авторская методика Тянь-Лун: от постановки тонов до свободного общения.</p>
+            <button class="btn btn--filled scroll-to-form">ЗАПИСАТЬСЯ</button>
+          </div>
+          <div class="slider__image">
+            <img src="картинка 3 слайдер.png" alt="Урок в классе" />
+          </div>
+        </div>
+        <img class="slider__slide-tree" src="дерево.png" alt="" />
+      </div>
+
+    </div>
+    <div class="slider__controls">
+      <div class="slider__arrows">
+        <button class="slider__btn" id="slidePrev" aria-label="Назад">
+          <svg width="11" height="18" viewBox="0 0 11 18" fill="none">
+            <path d="M9 2L2 9L9 16" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="slider__btn" id="slideNext" aria-label="Вперёд">
+          <svg width="11" height="18" viewBox="0 0 11 18" fill="none">
+            <path d="M2 2L9 9L2 16" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="slider__dots" id="sliderDots">
+        <button class="slider__dot is-active" data-index="0" aria-label="Слайд 1"></button>
+        <button class="slider__dot"            data-index="1" aria-label="Слайд 2"></button>
+        <button class="slider__dot"            data-index="2" aria-label="Слайд 3"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="features">
+  <div class="section-inner">
+    <h2 class="features__title">Почему выбирают нас?</h2>
+    <div class="features__grid">
+      <div class="feature-card">
+        <div class="feature-card__icon-circle">师</div>
+        <div class="feature-card__name">Опытные учителя</div>
+        <p class="feature-card__desc">Дипломированные специалисты из Китая и России.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon-circle">体</div>
+        <div class="feature-card__name">Индивидуальный подход</div>
+        <p class="feature-card__desc">Группы до 4 человек или 1-на-1 — ваш прогресс в приоритете.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon-circle">习</div>
+        <div class="feature-card__name">Разговорная практика</div>
+        <p class="feature-card__desc">75% времени — живое общение, тематические воркшопы.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="courses" class="courses">
+  <div class="section-inner">
+    <h2 class="courses__title">Программы обучения</h2>
+    <div class="courses__grid">
+      <div class="course-card">
+        <div class="course-card__number">Курс № 1</div>
+        <div class="course-card__title">Стартовый HSK 1</div>
+        <p class="course-card__desc">Фонетика и тоны, основы иероглифики, простые диалоги и первая лексика для уровня HSK 1.</p>
+        <div class="course-card__price">5000 ₽ / месяц</div>
+        <button class="btn btn--outline open-modal" data-course="1">Подробнее</button>
+      </div>
+      <div class="course-card">
+        <div class="course-card__number">Курс № 2</div>
+        <div class="course-card__title">HSK 2–3</div>
+        <p class="course-card__desc">Грамматика, аудирование, чтение коротких текстов, расширение словарного запаса до 500+ слов.</p>
+        <div class="course-card__price">6000 ₽ / месяц</div>
+        <button class="btn btn--outline open-modal" data-course="2">Подробнее</button>
+      </div>
+      <div class="course-card">
+        <div class="course-card__number">Курс № 3</div>
+        <div class="course-card__title">HSK 4 + экзамен</div>
+        <p class="course-card__desc">Подготовка к экзамену, сложные тексты, аргументированное эссе, устойчивые выражения.</p>
+        <div class="course-card__price">6500 ₽ / месяц</div>
+        <button class="btn btn--outline open-modal" data-course="3">Подробнее</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="faq">
+  <div class="section-inner">
+    <h2 class="faq__title">Часто задаваемые вопросы</h2>
+    <div class="faq__list">
+      <div class="faq-item">
+        <button class="faq-item__question">
+          <span>Как записаться на пробный урок?</span>
+          <svg class="faq-item__icon" viewBox="0 0 28 28" fill="none">
+            <line class="faq-plus-h" x1="5" y1="14" x2="23" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line class="faq-plus-v" x1="14" y1="5"  x2="14" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="faq-item__answer">
+          Оставьте заявку в форме ниже, и администратор свяжется с вами в течение часа. Пробный урок бесплатный.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__question">
+          <span>Занятия проходят только онлайн?</span>
+          <svg class="faq-item__icon" viewBox="0 0 28 28" fill="none">
+            <line class="faq-plus-h" x1="5" y1="14" x2="23" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line class="faq-plus-v" x1="14" y1="5"  x2="14" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="faq-item__answer">
+          Да, все курсы доступны онлайн на платформе Zoom / Skype. Также возможны очные занятия в Москве.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-item__question">
+          <span>Как долго длится курс?</span>
+          <svg class="faq-item__icon" viewBox="0 0 28 28" fill="none">
+            <line class="faq-plus-h" x1="5" y1="14" x2="23" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line class="faq-plus-v" x1="14" y1="5"  x2="14" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="faq-item__answer">
+          Каждый модуль рассчитан на 1–3 месяца, можно продолжать обучение до уровня HSK 5.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="form-section">
+  <div class="form-box" id="formBox">
+    <img class="form-box__cat" src="кот.png" alt="Кот удачи" />
+    <div class="form-box__content">
+      <h2 class="form-box__title">Оставьте заявку</h2>
+      <div class="form-field">
+        <input type="text" id="inputName"  placeholder="Ваше имя"         autocomplete="name" />
+        <div class="form-field__error" id="nameError"></div>
+      </div>
+      <div class="form-field">
+        <input type="tel"  id="inputPhone" placeholder="+7 999 123-45-67" autocomplete="tel"  />
+        <div class="form-field__error" id="phoneError"></div>
+      </div>
+      <button class="btn btn--filled" id="submitBtn">Отправить</button>
+    </div>
+    <div class="success-overlay" id="successOverlay">
+      <div class="success-box">
+        <div class="success-box__title">Заявка отправлена!</div>
+        <p class="success-box__text">Спасибо! Наш менеджер свяжется с вами в ближайшее время.</p>
+        <button class="success-box__btn" id="closeSuccess">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer__copy">© 2026 Школа китайского языка «ТЯНЬ-ЛУН»</div>
+  <div class="footer__sub">Все права защищены. Изучайте китайский с нами.</div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal__close" id="modalClose">✕</button>
+    <h3 class="modal__title" id="modalTitle"></h3>
+    <div class="modal__body"  id="modalBody"></div>
+    <div class="modal__footer">
+      <button class="btn btn--filled scroll-to-form">Записаться</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
