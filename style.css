@@ -1,0 +1,1171 @@
+@import url('https://fonts.googleapis.com/css2?family=Vollkorn:wght@600&display=swap');
+
+/* ============================================================
+   ПЕРЕМЕННЫЕ И ГЛОБАЛЬНЫЙ СБРОС
+   ============================================================ */
+
+/* Сброс полей и размеров для всех элементов */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --color-bg:        #FFFFFF;         /* основной белый фон страницы */
+  --color-bg-accent: #FEFEF5;         /* кремовый фон карточек, слайдера, футера */
+  --color-text:      #000000;         /* основной цвет текста — строго чёрный */
+  --color-primary:   #8F041F;         /* главный бордовый цвет бренда */
+  --font-display:    'Vollkorn', 'Times New Roman', serif; /* шрифт заголовков */
+  --font-body:       'Times New Roman', serif;             /* шрифт основного текста */
+  --radius-card:     20px;            /* скругление карточек и модалок */
+  --radius-btn:      20px;            /* скругление кнопок */
+}
+
+/* Плавный скролл при переходе по якорям (#section) */
+html { scroll-behavior: smooth; }
+
+/* Запрет горизонтального скролла на всём сайте */
+html, body { max-width: 100%; overflow-x: hidden; }
+
+/* Базовые стили тела — шрифт, размер, цвет, межстрочный интервал */
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-size: 20px;
+  line-height: 1.65;
+}
+
+
+/* ============================================================
+   ПРЕЛОАДЕР — полноэкранная анимация при первой загрузке
+   ============================================================ */
+
+/* Белый оверлей поверх всего контента */
+.preloader {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.7s ease;
+}
+
+/* JS добавляет этот класс — прелоадер плавно исчезает */
+.preloader.fade-out { opacity: 0; pointer-events: none; }
+
+/* Изображение дракона: вырастает и вращается при загрузке */
+.preloader__dragon {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  animation: dragonSpinGrow 3.2s ease-out forwards;
+}
+
+/* Анимация появления дракона */
+@keyframes dragonSpinGrow {
+  0%   { transform: scale(0.15) rotate(0deg);   opacity: 0; }
+  15%  { opacity: 1; }
+  100% { transform: scale(2.2)  rotate(720deg); opacity: 1; }
+}
+
+
+/* ============================================================
+   ШАПКА (HEADER)
+   ============================================================ */
+
+/* Фиксированная полоса шапки на всю ширину */
+.header {
+  background: var(--color-primary);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Внутренний контейнер: логотип слева, бургер справа,
+   навигация центрируется абсолютно */
+.header__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 48px 0 80px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+/* Логотип — ссылка-обёртка без подчёркивания */
+.header__logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+/* Круглый контейнер иконки-дракона */
+.header__logo-img {
+  width: 70px;
+  height: 65px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Картинка внутри круга — вписывается без обрезки */
+.header__logo-img img { width: 100%; height: 100%; object-fit: contain; }
+
+/* Горизонтальная навигация — абсолютно по центру шапки */
+.header__nav {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -52%);
+}
+
+/* Элемент списка навигации */
+.header__nav li { display: flex; align-items: center; }
+
+/* Ссылка навигации: белая, без подчёркивания */
+.header__nav a {
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  padding: 4px 20px;
+  letter-spacing: 0.01em;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.header__nav a:hover { opacity: 0.72; }
+
+/* Кнопка-бургер — скрыта на десктопе, появляется на мобильных */
+.header__burger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+
+/* ============================================================
+   МОБИЛЬНОЕ МЕНЮ (выезжает справа)
+   ============================================================ */
+
+/* Выдвижная панель — скрыта по умолчанию */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 64px;
+  right: 0;
+  width: 220px;
+  min-height: 36vh;
+  background: var(--color-primary);
+  z-index: 99;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: -4px 0 20px rgba(0,0,0,0.25);
+  padding: 24px 36px;
+}
+
+/* JS добавляет is-open — меню показывается */
+.mobile-menu.is-open { display: flex; }
+
+/* Ссылки мобильного меню */
+.mobile-menu a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  transition: opacity 0.2s;
+  text-align: center;
+  padding: 8px 12px;
+  width: 100%;
+  display: block;
+}
+.mobile-menu a:hover { opacity: 0.75; }
+
+
+/* ============================================================
+   ОБЩИЙ КОНТЕЙНЕР СЕКЦИЙ
+   ============================================================ */
+
+/* Внутренний враппер с максимальной шириной и боковыми отступами */
+.section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+
+
+/* ============================================================
+   СЛАЙДЕР (секция Hero)
+   ============================================================ */
+
+/* Внешняя обёртка Hero-секции */
+.hero {
+  padding: 28px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden; /* скрывает соседние слайды от горизонтального скролла */
+}
+
+/* Карточка слайдера */
+.slider {
+  background: var(--color-bg-accent);
+  border-radius: var(--radius-card);
+  border: 1px solid #e0d0a0;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+/* Горизонтальная лента всех слайдов (flex в ряд).
+   touch-action: pan-y — браузер не перехватывает touchmove при горизонтальном жесте,
+   горизонталь обрабатываем в JS через e.preventDefault().
+   user-select: none — текст не выделяется пальцем при свайпе. */
+.slider__track {
+  display: flex;
+  transition: transform 0.5s ease;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Один слайд — всегда ровно 100% ширины трека */
+.slider__slide {
+  min-width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Фоновое изображение дерева — тянется на весь слайд */
+.slider__slide-tree {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Псевдоэлемент слайда не используется */
+.slider__slide::before { display: none; }
+
+/* Двухколоночная сетка: текст 55% | фото 45% */
+.slider__slide-top {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  gap: 20px;
+  align-items: center;
+  padding: 36px 52px 32px;
+  position: relative;
+  z-index: 2;
+  min-height: 320px;
+}
+
+/* Текстовый блок — левый край, колонка */
+.slider__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* Крупный заголовок слайда */
+.slider__title {
+  font-family: var(--font-body);
+  font-size: 56px;
+  font-weight: 600;
+  color: var(--color-primary);
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+/* Подзаголовок (слайд 1) */
+.slider__subtitle {
+  font-family: var(--font-body);
+  font-size: 42px;
+  color: var(--color-text);
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+/* Описание (слайды 2–3) */
+.slider__desc {
+  font-family: var(--font-body);
+  font-size: 24px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  color: var(--color-text);
+  min-height: 80px;
+}
+
+/* Кнопка «Записаться» — по левому краю текстового блока */
+.slider__content .btn {
+  font-size: 17px;
+  padding: 13px 36px;
+  letter-spacing: 0.1em;
+  align-self: flex-start;
+}
+
+/* Блок с фото справа */
+.slider__image {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+}
+
+/* Фото на слайде */
+.slider__image img {
+  width: 100%;
+  max-width: 380px;
+  height: 420px;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+  display: block;
+  margin: 0 auto;
+  background: #e0d0c0;
+}
+
+/* Панель стрелок и точек */
+.slider__controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 0 32px;
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  border-top: 2px solid rgba(0,0,0,0.07);
+}
+
+/* Обёртка двух стрелок */
+.slider__arrows { display: flex; gap: 20px; }
+
+/* Круглая кнопка-стрелка */
+.slider__btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+.slider__btn:hover { opacity: 0.8; }
+
+/* Контейнер точек-индикаторов */
+.slider__dots { display: flex; gap: 10px; align-items: center; }
+
+/* Одна точка */
+.slider__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #bbb;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+/* Активная точка — бордовая, крупнее */
+.slider__dot.is-active { background: var(--color-primary); transform: scale(1.35); }
+
+
+/* ============================================================
+   КНОПКИ
+   ============================================================ */
+
+/* Базовая кнопка */
+.btn {
+  display: inline-block;
+  padding: 12px 34px;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-body);
+  font-size: 20px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  border: 2px solid var(--color-primary);
+  transition: background 0.2s, color 0.2s, transform 0.15s, box-shadow 0.15s;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(143,4,31,0.25); }
+
+/* Залитая: бордовый фон, белый текст */
+.btn--filled       { background: var(--color-primary); color: #fff; }
+.btn--filled:hover { background: #6e0317; }
+
+/* Контурная: белый фон, бордовый текст */
+.btn--outline       { background: #fff; color: var(--color-primary); }
+.btn--outline:hover { background: var(--color-primary); color: #fff; }
+
+
+/* ============================================================
+   СЕКЦИЯ «ПОЧЕМУ ВЫБИРАЮТ НАС» (FEATURES)
+   ============================================================ */
+
+.features { padding: 70px 0; }
+
+/* Заголовок секции */
+.features__title {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 600;
+  margin-bottom: 44px;
+}
+
+/* Трёхколоночная сетка */
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* Карточка преимущества.
+   min-width: 0 — обязательно для grid, иначе карточка не сожмётся.
+   word-break — длинные слова не ломают карточку. */
+.feature-card {
+  background: var(--color-bg-accent);
+  border-radius: var(--radius-card);
+  border: 1px solid #e8d8a0;
+  padding: 32px 24px;
+  text-align: center;
+  min-width: 0;
+  word-break: break-word;
+}
+
+/* Круг с иероглифом */
+.feature-card__icon-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin: 0 auto 14px;
+  color: var(--color-primary);
+}
+
+/* Название преимущества */
+.feature-card__name {
+  font-family: var(--font-body);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+
+/* Описание преимущества */
+.feature-card__desc {
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.7;
+}
+
+
+/* ============================================================
+   СЕКЦИЯ «ПРОГРАММЫ ОБУЧЕНИЯ» (COURSES)
+   ============================================================ */
+
+/* Фон — дракон по центру.
+   background-size: contain — дракон виден целиком, не обрезается. */
+.courses {
+  padding: 80px 0 90px;
+  position: relative;
+  background-image: url('дракон2.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+}
+
+/* Полупрозрачный кремовый оверлей поверх дракона */
+.courses::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(254,254,245,0.55);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Заголовок поверх оверлея */
+.courses__title {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 600;
+  margin-bottom: 44px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Трёхколоночная сетка карточек */
+.courses__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Карточка курса — flex-колонка, кнопка всегда снизу */
+.course-card {
+  background: #fff;
+  border-radius: var(--radius-card);
+  border: 1px solid #e0cca0;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  word-break: break-word;
+}
+
+/* Метка «Курс № X» */
+.course-card__number {
+  font-family: var(--font-body);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Название курса */
+.course-card__title {
+  font-family: var(--font-body);
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* Описание — flex: 1 растягивает до кнопки */
+.course-card__desc {
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.65;
+  flex: 1;
+}
+
+/* Цена — по центру, с воздухом снизу перед кнопкой */
+.course-card__price {
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/* Кнопка «Подробнее» — компактная, по центру карточки */
+.course-card .btn {
+  font-size: 15px;
+  padding: 9px 26px;
+  border-radius: var(--radius-btn);
+  align-self: center;
+  margin-top: 10px;
+  letter-spacing: 0.1em;
+}
+
+
+/* ============================================================
+   FAQ — АККОРДЕОН
+   ============================================================ */
+
+/* Серый фон секции для контраста */
+.faq { background: #f5f5f5; padding: 70px 0; }
+
+/* Заголовок секции */
+.faq__title {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+/* Вертикальный список вопросов */
+.faq__list { display: flex; flex-direction: column; gap: 20px; }
+
+/* Один элемент: вопрос + скрытый ответ */
+.faq-item {
+  background: #fff;
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.faq-item:hover   { box-shadow: 0 2px 10px rgba(143,4,31,0.15); }
+.faq-item.is-open { border-color: var(--color-primary); }
+
+/* Кнопка-заголовок вопроса.
+   color и -webkit-text-fill-color явно заданы:
+   iOS/Android WebKit синит текст button без border. */
+.faq-item__question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 24px;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  color: var(--color-text);               /* явный чёрный */
+  -webkit-text-fill-color: var(--color-text); /* Safari/iOS override */
+}
+
+/* SVG-иконка + / - */
+.faq-item__icon { flex-shrink: 0; width: 26px; height: 26px; color: var(--color-primary); }
+
+/* Текст ответа — раскрывается через max-height.
+   ──────────────────────────────────────────────────────────────
+   ПОЧЕМУ color + -webkit-text-fill-color оба нужны:
+   1) color: — стандартный CSS, перекрывает наследованный синий
+   2) -webkit-text-fill-color: — перекрывает системный override
+      на Safari/iOS даже если color уже задан.
+   Без обоих на некоторых iOS-устройствах текст остаётся синим.
+   ────────────────────────────────────────────────────────────── */
+.faq-item__answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  padding: 0 24px;
+  font-size: 20px;
+  line-height: 1.7;
+  color: var(--color-text);
+  -webkit-text-fill-color: var(--color-text);
+}
+
+/* Ссылки внутри ответа — бордовые, не синие */
+.faq-item__answer a {
+  color: var(--color-primary);
+  -webkit-text-fill-color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* Открытое состояние */
+.faq-item.is-open .faq-item__answer { max-height: 300px; padding: 0 24px 20px; }
+
+
+/* ============================================================
+   ФОРМА ЗАЯВКИ
+   ============================================================ */
+
+/* Внешняя обёртка секции */
+.form-section {
+  padding: 70px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Двухколоночный контейнер: кот (auto) | поля (1fr) */
+.form-box {
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-card);
+  padding: 48px 52px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 32px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Кот удачи — покачивается */
+.form-box__cat {
+  width: 320px;
+  height: 320px;
+  object-fit: contain;
+  flex-shrink: 0;
+  order: -1;
+  margin-left: 52px;
+  animation: catSwing 3.2s ease-in-out infinite;
+  transform-origin: top center;
+}
+@keyframes catSwing {
+  0%, 100% { transform: rotate(-6deg); }
+  50%       { transform: rotate(6deg); }
+}
+
+/* Правая колонка — поля по центру */
+.form-box__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* Заголовок «Оставьте заявку» */
+.form-box__title {
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+/* Обёртка поля + ошибки */
+.form-field { margin-bottom: 14px; width: 100%; }
+
+/* Поле ввода */
+.form-field input {
+  width: 100%;
+  padding: 13px 18px;
+  border: 1.5px solid #ccc;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-body);
+  font-size: 22px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-field input:focus    { border-color: var(--color-primary); }
+.form-field input.is-error { border-color: #e00; }
+
+/* Текст ошибки */
+.form-field__error { font-size: 14px; color: #e00; margin-top: 4px; display: none; }
+.form-field__error.is-visible { display: block; }
+
+/* Кнопка «Отправить» */
+#submitBtn {
+  font-family: var(--font-body);
+  font-size: 18px;
+  margin-top: 12px;
+  padding: 10px 32px;
+  width: auto;
+  align-self: center;
+  letter-spacing: 0.08em;
+}
+
+
+/* ============================================================
+   ОВЕРЛЕЙ УСПЕХА
+   ============================================================ */
+
+/* Затемнение поверх формы */
+.success-overlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-card);
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.38);
+  z-index: 10;
+}
+.success-overlay.is-visible { display: flex; }
+
+/* Карточка с текстом */
+.success-box {
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius-card);
+  padding: 40px 56px;
+  text-align: center;
+  max-width: 520px;
+  width: 92%;
+}
+.success-box__title { font-family: var(--font-display); font-size: 38px; font-weight: 600; margin-bottom: 10px; }
+.success-box__text  { font-size: 20px; margin-bottom: 22px; line-height: 1.55; }
+
+/* Кнопка «Закрыть» */
+.success-box__btn {
+  background: #fff;
+  color: var(--color-primary);
+  border: 1.5px solid #fff;
+  padding: 10px 30px;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-body);
+  font-size: 20px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.success-box__btn:hover { opacity: 0.85; }
+
+
+/* ============================================================
+   МОДАЛЬНОЕ ОКНО КУРСА
+   ============================================================ */
+
+/* Затемнённый оверлей на весь экран */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.is-open { display: flex; }
+
+/* Карточка модалки */
+.modal {
+  background: #fff;
+  border-radius: var(--radius-card);
+  border: 1px solid #ddd;
+  max-width: 500px;
+  width: 100%;
+  padding: 36px 32px 28px;
+  position: relative;
+}
+
+/* Кнопка ✕ */
+.modal__close {
+  position: absolute;
+  top: 14px; right: 18px;
+  background: none; border: none; cursor: pointer;
+  color: var(--color-primary);
+  font-size: 20px; font-weight: bold; line-height: 1;
+  transition: transform 0.2s;
+}
+.modal__close:hover { transform: rotate(90deg); }
+
+/* Заголовок курса */
+.modal__title {
+  font-family: var(--font-display);
+  font-size: 28px; font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 18px; padding-right: 28px; text-align: center;
+}
+
+/* Тело модалки */
+.modal__body p { margin-bottom: 12px; font-size: 20px; line-height: 1.65; }
+.modal__body strong { font-weight: bold; }
+
+/* Подвал модалки */
+.modal__footer { text-align: center; margin-top: 20px; }
+.modal__footer .btn { font-size: 18px; padding: 10px 32px; }
+
+
+/* ============================================================
+   ФУТЕР
+   ============================================================ */
+
+.footer {
+  background: var(--color-bg-accent);
+  padding: 28px 40px;
+  text-align: center;
+  border-top: 1px solid #e8d8a0;
+}
+
+/* Строка копирайта */
+.footer__copy {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+/* Подпись */
+.footer__sub {
+  font-family: var(--font-body);
+  font-size: 20px;
+  color: var(--color-primary);
+}
+
+
+/* ============================================================
+   АДАПТИВНОСТЬ
+   ─────────────────────────────────────────────────────────────
+   > 900px    — десктоп: горизонтальное меню, полный размер
+   551–900px  — планшет: бургер, 2-кол слайдер, кот в форме
+   401–768px  — уточнения для iPad portrait (доп. брейкпоинт)
+   401–550px  — малый телефон: 1-кол курсы, кот сверху
+   ≤ 400px    — мобильный: 1-кол слайдер, крупные шрифты,
+                увеличенные боковые отступы
+   ============================================================ */
+
+
+/* ── ПЛАНШЕТ: 551px – 900px ─────────────────────────────── */
+@media (max-width: 900px) {
+
+  /* === Шапка === */
+  .header__inner  { padding: 0 20px; height: 60px; }
+  .header__nav    { display: none; }    /* прячем горизонтальное меню */
+  .header__burger { display: flex; }    /* показываем бургер */
+  .mobile-menu    { top: 60px; }
+
+  /* === Слайдер === */
+  /* Двухколоночный; min-height вытягивает вниз — пропорции как на ноутбуке */
+  .hero { padding: 16px 20px; }
+  .slider__slide-top {
+    grid-template-columns: 55% 45%;
+    gap: 16px;
+    min-height: 300px;
+    padding: 28px 28px 24px;
+  }
+  /* Текст — по левому краю, кнопка — тоже левый край */
+  .slider__content      { align-items: flex-start; text-align: left; }
+  .slider__content .btn { align-self: flex-start; font-size: 15px; padding: 10px 22px; }
+  .slider__image img    { height: 260px; max-width: 100%; }
+  .slider__desc         { min-height: auto; }
+  .slider__title        { font-size: 32px; }
+  .slider__subtitle     { font-size: 25px; }
+  .slider__desc         { font-size: 18px; }
+
+  /* === Общий враппер === */
+  .section-inner { padding: 0 28px; }
+
+  /* === Преимущества === */
+  /* Три колонки; карточки не вылезают — min-width: 0 в базовых стилях */
+  .features        { padding: 50px 0; }
+  .features__title { font-size: 36px; }
+  .features__grid  { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .feature-card    { padding: 22px 16px; }
+  .feature-card__name { font-size: 21px; }
+  .feature-card__desc { font-size: 18px; } /* читаемо на планшете */
+
+  /* === Курсы === */
+  .courses        { padding: 50px 0 60px; }
+  .courses__title { font-size: 36px; }
+  .courses__grid  { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .course-card    { padding: 20px 16px; gap: 10px; }
+  .course-card__number { font-size: 18px; }
+  .course-card__title  { font-size: 21px; }
+  .course-card__desc   { font-size: 17px; } /* значительно крупнее */
+  .course-card__price  { font-size: 18px; }
+  .course-card .btn    { font-size: 14px; padding: 8px 14px; }
+
+  /* === FAQ === */
+  .faq        { padding: 50px 0; }
+  .faq__title { font-size: 36px; }
+  .faq-item__question { font-size: 22px; padding: 18px 22px; }
+  .faq-item__answer   { font-size: 18px; }
+
+  /* === Форма === */
+  /* Двухколоночная: кот слева — как на десктопе */
+  .form-section    { padding: 50px 28px; }
+  .form-box {
+    grid-template-columns: auto 1fr;
+    padding: 32px 28px;
+    gap: 24px;
+  }
+  .form-box__cat   { width: 200px; height: 200px; margin-left: 0; order: -1; }
+  .form-box__title { font-size: 36px; margin-bottom: 20px; }
+  .form-field input { font-size: 19px; }
+  #submitBtn        { font-size: 17px; padding: 10px 26px; }
+
+  /* === Футер === */
+  .footer       { padding: 20px 28px; }
+  .footer__copy { font-size: 26px; }
+  .footer__sub  { font-size: 17px; }
+}
+
+
+/* ── УТОЧНЕНИЕ: 401px – 768px (iPad portrait) ───────────── */
+@media (max-width: 768px) {
+
+  /* Слайдер чуть компактнее по высоте */
+  .slider__slide-top {
+    min-height: 260px;
+    padding: 22px 22px 18px;
+  }
+  .slider__title     { font-size: 28px; }
+  .slider__subtitle  { font-size: 22px; }
+  .slider__image img { height: 220px; }
+
+  /* Три колонки курсов плотнее */
+  .courses__grid { gap: 12px; }
+  .course-card   { padding: 16px 14px; gap: 8px; }
+  .course-card__title { font-size: 19px; }
+  .course-card__desc  { font-size: 15px; }
+
+  /* Кот меньше, заголовок формы компактнее */
+  .form-box__cat   { width: 160px; height: 160px; }
+  .form-box__title { font-size: 32px; }
+}
+
+
+/* ── МАЛЫЙ ПЛАНШЕТ / БОЛЬШОЙ ТЕЛЕФОН: 401px – 550px ─────── */
+@media (max-width: 550px) {
+
+  /* Базовый шрифт крупнее — улучшает читаемость */
+  body { font-size: 18px; }
+
+  /* === Слайдер === */
+  .hero { padding: 12px 16px; }
+  .slider__slide-top {
+    grid-template-columns: 55% 45%;
+    min-height: 220px;
+    padding: 18px 18px 16px;
+    gap: 10px;
+  }
+  .slider__title    { font-size: 24px; }
+  .slider__subtitle { font-size: 19px; }
+  .slider__desc     { font-size: 17px; min-height: auto; }
+  .slider__content .btn { font-size: 13px; padding: 9px 14px; letter-spacing: 0.04em; }
+  .slider__image img    { height: 185px; }
+  .slider__controls { padding: 14px 0 22px; }
+
+  /* === Общий враппер === */
+  .section-inner { padding: 0 18px; }
+
+  /* === Преимущества === */
+  /* Две колонки; третья карточка — на всю ширину */
+  .features__title { font-size: 30px; }
+  .features__grid  { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .features__grid .feature-card:last-child { grid-column: 1 / -1; max-width: 300px; margin: 0 auto; }
+  .feature-card    { padding: 18px 14px; }
+  .feature-card__name { font-size: 19px; }
+  .feature-card__desc { font-size: 16px; }
+
+  /* === Курсы === */
+  /* Одна колонка */
+  .courses__title  { font-size: 30px; }
+  .courses__grid   { grid-template-columns: 1fr; gap: 14px; }
+  .course-card     { padding: 22px 20px; }
+  .course-card__number { font-size: 19px; }
+  .course-card__title  { font-size: 22px; }
+  .course-card__desc   { font-size: 17px; }
+  .course-card__price  { font-size: 18px; }
+  .course-card .btn    { font-size: 15px; padding: 10px 20px; }
+
+  /* === FAQ === */
+  .faq__title         { font-size: 30px; }
+  .faq-item__question { font-size: 19px; padding: 16px 18px; }
+  .faq-item__answer   { font-size: 17px; padding: 0 18px; line-height: 1.7; }
+  .faq-item.is-open .faq-item__answer { padding: 0 18px 16px; }
+
+  /* === Форма === */
+  /* Одна колонка: кот сверху */
+  .form-section    { padding: 32px 18px; }
+  .form-box        { grid-template-columns: 1fr; padding: 26px 20px; gap: 18px; }
+  .form-box__cat   { width: 150px; height: 150px; margin: 0 auto; order: 0; }
+  .form-box__title { font-size: 30px; margin-bottom: 18px; }
+  .form-field input { font-size: 18px; padding: 13px 16px; }
+  #submitBtn        { font-size: 17px; padding: 11px 26px; }
+
+  .footer__copy { font-size: 22px; }
+  .footer__sub  { font-size: 15px; }
+}
+
+
+/* ── МОБИЛЬНЫЙ: ≤ 400px ──────────────────────────────────── */
+@media (max-width: 400px) {
+
+  /* Базовый шрифт — крупный, читается на 360px */
+  body { font-size: 17px; }
+
+  /* === Шапка === */
+  /* Увеличенные боковые отступы шапки */
+  .header__inner { padding: 0 18px; }
+  /* Логотип-дракон меньше — освобождает место */
+  .header__logo-img { width: 46px; height: 44px; }
+  .mobile-menu   { top: 60px; width: 200px; min-height: 40vh; padding: 28px 32px; }
+  .mobile-menu a { font-size: 18px; padding: 10px 12px; }
+
+  /* === Слайдер === */
+  /* Одна колонка: текст по центру, фото под текстом */
+  .hero { padding: 12px 16px; }
+  .slider__slide-top {
+    grid-template-columns: 1fr;
+    padding: 22px 20px 18px;  /* увеличены отступы от краёв */
+    min-height: auto;
+  }
+  .slider__content      { align-items: center; text-align: center; }
+  .slider__content .btn { align-self: center; font-size: 14px; padding: 10px 22px; }
+  .slider__controls     { padding: 14px 0 20px; }
+  .slider__image img    { max-width: 220px; height: 180px; margin: 0 auto; }
+  .slider__slide-tree   { opacity: 0.3; } /* фоновое дерево почти прозрачное */
+  /* Крупные шрифты слайдера */
+  .slider__title    { font-size: 26px; }
+  .slider__subtitle { font-size: 20px; }
+  .slider__desc     { font-size: 18px; min-height: auto; }
+
+  /* === Общий враппер === */
+  /* Увеличен боковой padding во всех секциях */
+  .section-inner { padding: 0 20px; }
+
+  /* === Преимущества === */
+  /* Одна колонка */
+  .features        { padding: 44px 0; }
+  .features__title { font-size: 28px; }
+  .features__grid  { grid-template-columns: 1fr; gap: 12px; }
+  .features__grid .feature-card:last-child { grid-column: auto; max-width: none; }
+  .feature-card    { padding: 22px 20px; } /* увеличен padding карточки */
+  .feature-card__name { font-size: 22px; } /* крупнее */
+  .feature-card__desc { font-size: 18px; } /* крупнее — главный запрос */
+
+  /* === Курсы === */
+  /* Одна колонка */
+  .courses        { padding: 44px 0 54px; }
+  .courses__title { font-size: 28px; }
+  .courses__grid  { grid-template-columns: 1fr; gap: 14px; }
+  .course-card    { padding: 24px 20px; } /* увеличен padding */
+  .course-card__number { font-size: 18px; }
+  .course-card__title  { font-size: 23px; }
+  .course-card__desc   { font-size: 18px; } /* главный акцент — читаемость */
+  .course-card__price  { font-size: 19px; }
+  .course-card .btn    { font-size: 15px; padding: 10px 22px; }
+
+  /* === FAQ === */
+  .faq        { padding: 44px 0; }
+  .faq__title { font-size: 28px; }
+  .faq-item__question { font-size: 19px; padding: 18px 20px; }
+  .faq-item__answer   { font-size: 17px; padding: 0 20px; line-height: 1.75; }
+  .faq-item.is-open .faq-item__answer { padding: 0 20px 18px; }
+
+  /* === Форма === */
+  /* Увеличены боковые отступы */
+  .form-section    { padding: 30px 16px; }
+  .form-box        { grid-template-columns: 1fr; padding: 26px 20px; gap: 18px; }
+  .form-box__cat   { width: 120px; height: 120px; margin: 0 auto; order: 0; }
+  .form-box__title { font-size: 28px; margin-bottom: 18px; }
+  .form-field input { font-size: 17px; padding: 13px 16px; }
+  .form-field__error { font-size: 14px; }
+  #submitBtn        { font-size: 16px; padding: 12px 26px; }
+
+  /* === Модалка === */
+  .modal         { padding: 28px 20px 22px; max-width: calc(100vw - 28px); }
+  .modal__title  { font-size: 21px; }
+  .modal__body p { font-size: 16px; }
+  .modal__footer .btn { font-size: 15px; padding: 9px 22px; }
+
+  /* === Оверлей успеха === */
+  .success-box        { padding: 24px 20px; }
+  .success-box__title { font-size: 26px; }
+  .success-box__text  { font-size: 16px; }
+
+  /* === Футер === */
+  .footer       { padding: 20px 18px; }
+  .footer__copy { font-size: 20px; }
+  .footer__sub  { font-size: 14px; }
+}
