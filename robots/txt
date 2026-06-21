@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://zbkvln.github.io/china-school/sitemap.xml
