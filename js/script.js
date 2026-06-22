@@ -262,7 +262,6 @@ phoneInput.addEventListener('input', function() {
 function isValidPhone(val) {
   var stripped = val.replace(/[\s\-\(\)]/g, '');
   if (/^(\+7|7|8)\d{10}$/.test(stripped)) return true; /* с кодом страны */
-  if (/^\d{10}$/.test(stripped)) return true;           /* 10 цифр без кода */
   return false;
 }
 
